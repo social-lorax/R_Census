@@ -22,20 +22,6 @@ library(gapminder)
 knitr::opts_chunk$set(message = FALSE, warning = FALSE, out.width = "100%")
 options(scipen = 999)
 sf::sf_use_s2(FALSE)
-
-#Print Function
-print_datatable <- function(.data, center = NULL){
-  if (is.null(center)){
-    .data %>% 
-      datatable(rownames = FALSE)
-  }
-  
-  else {
-    .data %>% 
-      datatable(rownames = FALSE,
-                options = list(columnDefs = list(list(className = "dt-center", targets = center))))
-  }
-}
 ```
 
 ```{r}

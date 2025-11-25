@@ -1,0 +1,414 @@
+---
+title: "NYC Housing Vacancy Survey"
+author: "Ryan Brenner"
+date: "Updated: `r format(Sys.time(), '%a, %b %d, %Y at %I:%M %p')`"
+output: 
+  html_document:
+    highlight: tango
+    toc: true
+    toc_float: true
+    toc_depth: 4
+    number_sections: false
+---
+
+```{r include=FALSE}
+#Standard Libraries
+library(tidyverse)
+library(kableExtra)
+library(DT)
+library(gapminder)
+
+#Standard Settings
+knitr::opts_chunk$set(message = FALSE, warning = FALSE, out.width = "100%")
+options(scipen = 999)
+sf::sf_use_s2(FALSE)
+```
+
+```{r}
+library(tidyverse)
+library(srvyr)
+
+all23 <- readr::read_csv("https://www.nyc.gov/assets/hpd/data/allunits_puf_23.csv")
+occ23 <- readr::read_csv("https://www.nyc.gov/assets/hpd/data/occupied_puf_23.csv")
+vac23 <- readr::read_csv("https://www.nyc.gov/assets/hpd/data/vacant_puf_23.csv")
+per23 <- readr::read_csv("https://www.nyc.gov/assets/hpd/data/person_puf_23.csv")
+```
+
+<hr style="border:2px solid blue">
+
+# Background 
+
+****
+
+The New York City Housing and Vacancy Survey (HVS) is a comprehensive housing survey conducted approximately every three years by the U.S. Census Bureau on behalf of the New York City Department of Housing Preservation and Development (HPD). Established in 1965, the HVS was created in response to the City’s Rent Stabilization Law, which requires periodic measurement of the citywide rental vacancy rate to determine whether a housing emergency exists. Beyond its legal function, the survey serves as the city’s primary source of detailed data on housing conditions, affordability, and demographics. It collects information on occupancy status, rent, utilities, income, building age, and physical quality, among many other variables. The HVS provides a unique longitudinal record of New York’s housing stock and is considered one of the most detailed local housing datasets in the United States.
+
+In the wake of Donald Trump’s election and subsequent efforts to restrict access to federal data, the administration removed or suppressed numerous websites and datasets from agencies such as the Census Bureau. In response, responsibility for hosting and maintaining public access shifted into the hands of New York City’s HPD, ensuring continued public access and stewardship of this vital housing data tool. As such, all information about the survey, as well as the survey data itself, is located here: https://www.nyc.gov/site/hpd/about/research.page
+
+There are four public use files that provide microdata to work with: 
+
+<img src="C:/Users/brenner/Documents/GitHub/R_Census/Images/hvs_pufs.png">  
+
+The `CONTROL` variable joins all of the tables together, with every housing unit in the All Units dataset being in either Occupied Units or Vacant Units, and every person living in a unit showing up as their own row in the Persons dataset (i.e., many-to-one match). Projects should start by identifying the universe of interest (all, occupied, or vacant units) and then **left join** to that dataset (using `CONTROL` as the key) to pull in variables from other datasets. 
+
+<hr style="border:2px solid blue">
+
+# Survey Design
+
+****
+
+Unlike the American Community Survey (ACS), which provides thousands of pre-calculated indicators in ready-made tables and crosstabs, the HVS is released primarily as raw microdata. Each record represents an individual housing unit or person, requiring users to construct their own measures and apply statistical weights to produce representative estimates. Working with the HVS therefore involves a more hands-on analytical process: users must merge datasets, define variables, and apply survey design adjustments using software capable of complex survey processing, such as R’s `srvyr` package. This structure makes the HVS both more flexible and more demanding, allowing researchers to generate customized analyses while maintaining methodological rigor.
+
+The optimal workflow is (1) decide on a universe of housing units, (2) pull together needed variables from the different files, and (3) convert the dataframe to a replicate-weighted survey design object (using pre-set arguments outlined in the HVS documentation): 
+
+```{r}
+occ23 %>% 
+  dplyr::left_join(
+    all23 %>% 
+      dplyr::select(CONTROL, CSR), 
+    by = "CONTROL") %>% 
+  srvyr::as_survey_rep(
+    weights = FW,
+    repweights = num_range("FW", 1:80),
+    type = "other", 
+    combined_weights = TRUE, 
+    scale = 4/80, 
+    rscales = 1,
+    mse = TRUE
+  )
+```
+
+Once the dataset is converted into a replicate-weighted survey design object, R recognizes each observation as part of a complex survey sample rather than as an independent data point. This structure enables design-based analysis, allowing estimates, variances, and confidence intervals to reflect the HVS’s sampling methodology. With this object in place, researchers can use tidyverse-style verbs such as `summarize()` with functions like `survey_total()` or `survey_mean()` to calculate weighted estimates
+
+```{r}
+occ23 %>% 
+  srvyr::as_survey_rep(
+    weights = FW,
+    repweights = num_range("FW", 1:80),
+    type = "other", 
+    combined_weights = TRUE, 
+    scale = 4/80, 
+    rscales = 1,
+    mse = TRUE
+  ) %>% 
+  dplyr::summarize(
+    .by = TENURE,
+    count = srvyr::survey_total(),
+    mean_hhsize = srvyr::survey_mean(HHSIZE),
+    median_hhsize = srvyr::survey_median(HHSIZE)
+  ) %>% 
+  DT::datatable() %>% 
+  DT::formatRound(c("count", "count_se", "mean_hhsize", "mean_hhsize_se", "median_hhsize", "median_hhsize_se"), digits = 1)
+```
+
+<hr style="border:2px solid blue">
+
+# Variables 
+
+****
+
+The [HVS Codebook](https://www.nyc.gov/assets/hpd/downloads/pdfs/about/2023-nychvs-puf-user-guide-codebook.pdf) is the central reference for identifying, locating, and interpreting variables in the survey. It lists every variable and indicates which of the four datasets it is stored in, making it the first place to look when selecting variables or joining data across files. Because all responses are stored as numeric codes rather than text, the Codebook is also necessary for translating these values into their intended meanings and for avoiding common misreadings that can distort results.
+
+<img src="C:/Users/brenner/Documents/GitHub/R_Census/Images/hvs_guide.png">  
+
+Commonly used variables include the following: 
+
+<br> 
+
+### Borough (All Units)
+
+```{r eval = FALSE}
+all23 %>% 
+  dplyr::mutate(
+    boro = dplyr::case_when(
+      BORO == 1 ~ "Bronx", 
+      BORO == 2 ~ "Brooklyn",
+      BORO == 3 ~ "Manhattan", 
+      BORO == 4 ~ "Queens", 
+      BORO == 5 ~ "Staten Island"
+    )
+  )
+```
+
+<br> 
+
+### Regulatory Status (All Units)
+
+```{r eval = FALSE}
+all23 %>% 
+  dplyr::mutate(
+    bldg_type = dplyr::case_when(
+      #Renters
+      CSR == "05" ~ "NYCHA",
+      CSR == "32" ~ "Rent Stabilized", 
+      CSR == "90" ~ "Rent Controlled",
+      CSR == "97" ~ "Other Subsidized/Regulated Rental", 
+      CSR == "80" ~ "Private/Unregulated Rental",
+      #Owners
+      CSR == "02" ~ "Coop",
+      CSR == "12" ~ "Condo", 
+      CSR == "96" ~ "Subsidized/Regulated Owner-Occupied",
+      CSR == "06" ~ "Other Owner-Occupied",
+      #Vacant
+      CSR == "03" ~ "Vacant, for Sale",
+      CSR == "04" ~ "Vacant, not for Sale"
+    )
+  )
+```
+
+<br> 
+
+### Year Built (All Units)
+
+```{r eval = FALSE}
+all23 %>% 
+  dplyr::mutate(
+    year_built = dplyr::case_when(
+      YEARBUILT ==  1 ~ "1900 or earlier",
+      YEARBUILT ==  2 ~ "1901 to 1919",
+      YEARBUILT ==  3 ~ "1920 to 1929",
+      YEARBUILT ==  4 ~ "1930 to 1946",
+      YEARBUILT ==  5 ~ "1947 to 1959",
+      YEARBUILT ==  6 ~ "1960 to 1973",
+      YEARBUILT ==  7 ~ "1974 to 1979",
+      YEARBUILT ==  8 ~ "1980 to 1989",
+      YEARBUILT ==  9 ~ "1990 to 1999",
+      YEARBUILT == 10 ~ "2000 to 2009",
+      YEARBUILT == 11 ~ "2010 or later"
+    )
+  )
+```
+
+<br>
+
+### Units in Building (All Units)
+
+```{r eval = FALSE}
+all23 %>% 
+  dplyr::mutate(
+    units = dplyr::case_when(
+      UNITS ==  1 ~ "1 unit",
+      UNITS ==  2 ~ "2 units",
+      UNITS ==  3 ~ "3 units",
+      UNITS ==  4 ~ "4-5 units",
+      UNITS ==  5 ~ "6-9 units",
+      UNITS ==  6 ~ "10-12 units",
+      UNITS ==  7 ~ "13-19 units",
+      UNITS ==  8 ~ "20-49 units",
+      UNITS ==  9 ~ "50-99 units",
+      UNITS == 10 ~ "100+ units"
+    )
+  )
+```
+
+<br>
+
+### Coop/Condos (All Units)
+
+```{r eval = FALSE}
+all23 %>% 
+  dplyr::mutate(
+    coop_condo = dplyr::case_when(
+      CONDOCOOP == -1 ~ "Not reported",
+      CONDOCOOP ==  1 ~ "Condo",
+      CONDOCOOP ==  2 ~ "Coop",
+      CONDOCOOP ==  3 ~ "Neither condo nor coop"
+    )
+  )
+```
+
+<br> 
+
+### Occupancy (All Units)
+
+```{r eval = FALSE}
+all23 %>% 
+  dplyr::mutate(
+    occupancy = dplyr::case_when(
+      OCC == 1 ~ "Occupied",
+      OCC == 2 ~ "Vacant, available for rent",
+      OCC == 3 ~ "Vacant, not available for rent or sale"
+    )
+  )
+```
+
+<br> 
+
+### Tenure (Occupied)
+
+```{r eval = FALSE}
+occ23 %>% 
+  dplyr::mutate(
+    tenure = dplyr::case_when(
+      TENURE == 1 ~ "Renter",
+      TENURE == 2 ~ "Owner"
+    )
+  )
+```
+
+<br>
+
+### Household Income (Occupied)
+
+```{r eval = FALSE}
+occ23 %>% 
+  dplyr::mutate(
+    #Range of values is -$40,000 to $500,000,000 
+    hh_income = HHINC_REC1
+  )
+```
+
+<br> 
+
+### Rent (Occupied)
+
+```{r eval = FALSE}
+occ23 %>% 
+  dplyr::mutate(
+    #Range of values is -2 (NA/owner-occupied) to $7,500
+    rent = RENT_AMOUNT 
+  )
+```
+
+<br> 
+
+### Voucher Use (Occupied)
+
+```{r eval = FALSE}
+occ23 %>% 
+  dplyr::mutate(
+    voucher = dplyr::case_when(
+      RENTASSIST_VOUCHER == -2 ~ "Not applicable (owner)",
+      RENTASSIST_VOUCHER == -1 ~ "Not reported",
+      RENTASSIST_VOUCHER ==  1 ~ "Has Section 8 / Housing Choice Voucher",
+      RENTASSIST_VOUCHER ==  2 ~ "No Section 8 or Housing Choice Voucher"
+    )
+  )
+```
+
+<hr style="border:2px solid blue">
+
+# Examples 
+
+****
+
+#### **Count** of Vacancy and Tenure 
+
+```{r}
+all23 %>% 
+  dplyr::mutate(
+    occupancy = dplyr::case_when(
+      OCC == 1 ~ "Occupied",
+      OCC == 2 ~ "Vacant, available for rent",
+      OCC == 3 ~ "Vacant, not available for rent or sale"
+    )
+  ) %>% 
+  dplyr::left_join(
+    occ23 %>% 
+      dplyr::transmute(
+        CONTROL,
+        tenure = dplyr::case_when(
+          TENURE == 1 ~ "Renter",
+          TENURE == 2 ~ "Owner"
+        )
+      ),
+    by = "CONTROL"
+  ) %>% 
+  dplyr::mutate(
+    status = dplyr::case_when(
+      tenure == "Owner"                          ~ "Occupied, owner",
+      tenure == "Renter"                         ~ "Occupied, renter",
+      stringr::str_detect(occupancy, "^Vacant,") ~ occupancy
+    )
+  ) %>% 
+  srvyr::as_survey_rep(
+    weights = FW,
+    repweights = num_range("FW", 1:80),
+    type = "other", 
+    combined_weights = TRUE, 
+    scale = 4/80, 
+    rscales = 1,
+    mse = TRUE
+  ) %>% 
+  dplyr::summarize(
+    .by = status,
+    n = srvyr::survey_total(vartype = "ci")
+  ) %>% 
+  DT::datatable() %>% 
+  DT::formatRound(c("n", "n_low", "n_upp"), digits = 1)
+```
+
+<br> 
+
+#### **Median Rent** by Regulation
+
+```{r}
+occ23 %>% 
+  dplyr::filter(
+    #Renters
+    TENURE == 1,
+    #Rent Reported
+    RENT_AMOUNT > 0
+  ) %>% 
+  dplyr::left_join(
+    all23 %>% 
+      dplyr::transmute(
+        CONTROL,
+        bldg_type = dplyr::case_when(
+          #Renters
+          CSR == "05" ~ "NYCHA",
+          CSR == "32" ~ "Rent Stabilized", 
+          CSR == "90" ~ "Rent Controlled",
+          CSR == "97" ~ "Other Subsidized/Regulated", 
+          CSR == "80" ~ "Private/Unregulated",
+          #Owners
+          CSR == "02" ~ NA_character_,
+          CSR == "12" ~ NA_character_, 
+          CSR == "96" ~ NA_character_,
+          CSR == "06" ~ NA_character_,
+          #Vacant
+          CSR == "03" ~ NA_character_,
+          CSR == "04" ~ NA_character_
+        )
+      ),
+    by = "CONTROL"
+  ) %>% 
+  srvyr::as_survey_rep(
+    weights = FW,
+    repweights = num_range("FW", 1:80),
+    type = "other", 
+    combined_weights = TRUE, 
+    scale = 4/80, 
+    rscales = 1,
+    mse = TRUE
+  ) %>% 
+  dplyr::summarize(
+    .by = bldg_type,
+    median_rent = srvyr::survey_median(RENT_AMOUNT)
+  ) %>% 
+  ggplot(
+    aes(
+      x = reorder(bldg_type, median_rent),
+      y = median_rent,
+      ymin = median_rent - median_rent_se,
+      ymax = median_rent + median_rent_se
+    )
+  ) + 
+  geom_col(fill = "dodgerblue3") + 
+  geom_errorbar(width = 0.2) + 
+  scale_y_continuous(
+    expand = c(0, 0),
+    limits = c(0, 2500),
+    breaks = seq(0, 2500, 250),
+    labels = scales::dollar_format(accuracy = 1)
+  ) + 
+  labs(
+    title = "Median Rent by Rental Type",
+    x = "Type of Rental Unit",
+    y = "Median Rent (2023$)",
+    caption = "NYC Housing Vacancy Survey, 2023."
+  ) + 
+  theme_minimal()
+```
+
+
+
