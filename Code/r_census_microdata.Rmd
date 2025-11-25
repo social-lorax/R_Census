@@ -1,0 +1,349 @@
+---
+title: "Microdata (IPUMS)"
+author: "Ryan Brenner"
+date: "Updated: `r format(Sys.time(), '%a, %b %d, %Y at %I:%M %p')`"
+output: 
+  html_document:
+    highlight: tango
+    toc: true
+    toc_float: true
+    toc_depth: 4
+    number_sections: false
+---
+
+```{r include=FALSE}
+#Standard Libraries
+library(tidyverse)
+library(kableExtra)
+library(DT)
+library(gapminder)
+
+#Standard Settings
+knitr::opts_chunk$set(message = FALSE, warning = FALSE, out.width = "100%")
+options(scipen = 999)
+sf::sf_use_s2(FALSE)
+
+#Print Function
+print_datatable <- function(.data, center = NULL){
+  if (is.null(center)){
+    .data %>% 
+      datatable(rownames = FALSE)
+  }
+  
+  else {
+    .data %>% 
+      datatable(rownames = FALSE,
+                options = list(columnDefs = list(list(className = "dt-center", targets = center))))
+  }
+}
+```
+
+```{r}
+library(tidyverse)
+library(tidycensus)
+library(srvyr)
+```
+
+<hr style="border:2px solid blue">
+
+# Background 
+
+****
+
+IPUMS, originally the Integrated Public Use Microdata Series, is a database of Census microdata housed at the Institute for Social Research and Data Innovation (ISRDI) at the University of Minnesota. Whereas the published tables of the American Community Survey provide pre-calculated indicators and aggregated statistics for predefined geographies, IPUMS offers anonymized versions of the underlying person- and household-level records. Access to these raw microdata enables finer-grained analysis and the ability to create cross-tabulations of variables that are not combined in standard ACS products.
+
+**Example**
+
+The ACS surveys renter-occupied households about their rent. Whereas Table B25064 provides the median rent for a given geography, Table B25063 provides a distribution of rent amountrs. However, the bins are pre-set with bin widths of \$50 for rents under \$800, \$100 for rents under \$1,000, \$250 for rents under \$1,500, \$500 for rents under \$3,500, and then a ceiling of \$3,500. With a citywide median of around \$1,700, these bin widths are not ideal for analyzing NYC rents.
+
+```{r}
+acs_rent <- 
+  tidycensus::get_acs(
+    geography = "county",
+    state = "36",
+    county = c("005", "047", "061", "081", "085"),
+    table = "B25063",
+    year = 2023,
+    survey = "acs1"
+  ) %>% 
+  dplyr::transmute(
+    borough = dplyr::case_when(
+      NAME == "Bronx County, New York"    ~ "Bronx",
+      NAME == "Kings County, New York"    ~ "Brooklyn",
+      NAME == "New York County, New York" ~ "Manhattan",
+      NAME == "Queens County, New York"   ~ "Queens",
+      NAME == "Richmond County, New York" ~ "Staten_Island"
+    ),
+    rent = dplyr::case_when(
+      variable == "B25063_001" ~ "DROP", #Total
+      variable == "B25063_002" ~ "DROP", #With cash rent
+      variable == "B25063_003" ~ "0-99",
+      variable == "B25063_004" ~ "100-149",
+      variable == "B25063_005" ~ "150-199",
+      variable == "B25063_006" ~ "200-249",
+      variable == "B25063_007" ~ "250-299",
+      variable == "B25063_008" ~ "300-349",
+      variable == "B25063_009" ~ "350-399",
+      variable == "B25063_010" ~ "400-449",
+      variable == "B25063_011" ~ "450-499",
+      variable == "B25063_012" ~ "500-549",
+      variable == "B25063_013" ~ "550-599",
+      variable == "B25063_014" ~ "600-649",
+      variable == "B25063_015" ~ "650-699",
+      variable == "B25063_016" ~ "700-749",
+      variable == "B25063_017" ~ "750-799",
+      variable == "B25063_018" ~ "800-899",
+      variable == "B25063_019" ~ "900-999",
+      variable == "B25063_020" ~ "1000-1249",
+      variable == "B25063_021" ~ "1250-1499",
+      variable == "B25063_022" ~ "1500-1999",
+      variable == "B25063_023" ~ "2000-2499",
+      variable == "B25063_024" ~ "2500-2999",
+      variable == "B25063_025" ~ "3000-3499",
+      variable == "B25063_026" ~ "3500-Inf",
+      variable == "B25063_027" ~ "DROP" #No cash rent
+    ),
+    count = estimate
+  ) %>% 
+  dplyr::filter(rent != "DROP") %>% 
+  tidyr::pivot_wider(names_from = borough, values_from = count) %>% 
+  tidyr::separate(
+    rent, 
+    into = c("Bin_Min", "Bin_Max"),
+    sep = "-"
+  )
+
+acs_rent %>% 
+  DT::datatable() %>% 
+  DT::formatCurrency(c("Bin_Min", "Bin_Max"), currency = "$", digits = 0) %>% 
+  DT::formatRound(c("Bronx", "Brooklyn", "Manhattan", "Queens", "Staten_Island"), digits = 0)
+```
+
+<br> 
+
+IPUMS provides the underlying microdata, allowing this table to be re-binned.
+
+```{r}
+ipums_rent <- 
+  readr::read_csv("C:/Users/brenner/Documents/GitHub/R_Census/Data/nyc_micro_rent.csv") %>% 
+  dplyr::transmute(
+    household = SERIAL,
+    HHWT,
+    borough = dplyr::case_when(
+      COUNTYFIP == 5  ~ "Bronx",
+      COUNTYFIP == 47 ~ "Brooklyn",
+      COUNTYFIP == 61 ~ "Manhattan",
+      COUNTYFIP == 81 ~ "Queens",
+      COUNTYFIP == 85 ~ "Staten_Island"
+    ),
+    rent = dplyr::case_when(
+      RENTGRS <   500 ~ "0-499",
+      RENTGRS <  1000 ~ "500-999",
+      RENTGRS <  1500 ~ "1000-1499",
+      RENTGRS <  2000 ~ "1500-1999",
+      RENTGRS <  2500 ~ "2000-2499",
+      RENTGRS <  3000 ~ "2500-2999",
+      RENTGRS <  3500 ~ "3000-3499",
+      RENTGRS <  4000 ~ "3500-3999",
+      RENTGRS <  4500 ~ "4000-4499",
+      RENTGRS <  5000 ~ "4500-4999",
+      RENTGRS >= 5000 ~ "5000-Inf"
+    )
+  ) %>% 
+  dplyr::transmute(
+    household,
+    HHWT, 
+    group = stringr::str_c(borough, rent, sep = "-")
+  ) %>% 
+  dplyr::distinct(household, .keep_all = TRUE) %>% 
+  srvyr::as_survey(weights = HHWT) %>%
+  dplyr::summarize(
+    .by = group,
+    count = srvyr::survey_total()
+  ) %>% 
+  tidyr::separate(
+    group, 
+    into = c("borough", "Bin_Min", "Bin_Max"),
+    sep = "-"
+  ) %>% 
+  dplyr::select(-count_se) %>% 
+  tidyr::pivot_wider(names_from = borough, values_from = count)
+
+ipums_rent %>%
+  dplyr::arrange(as.double(Bin_Min)) %>% 
+  DT::datatable() %>% 
+  DT::formatCurrency(c("Bin_Min", "Bin_Max"), currency = "$", digits = 0) %>% 
+  DT::formatRound(c("Bronx", "Brooklyn", "Manhattan", "Queens", "Staten_Island"), digits = 0)
+```
+
+<hr style="border:2px solid blue">
+
+# Extracting Data
+
+****
+
+IPUMS data is available online at [https://usa.ipums.org/usa/](https://usa.ipums.org/usa/). Register for an account and click "Get Data" to start.
+
+<br>
+
+### Select Samples
+
+These are the datasets to pull from.
+
+<img src="C:/Users/brenner/Documents/GitHub/R_Census/Images/ipums_select_1_sample.png">  
+
+<br> 
+
+### Select Geography
+
+Microdata available through IPUMS is only labeled at the PUMA-level and higher (roughly equivalent to Community Districts in NYC). Selecting geographic data does not impact which records are sampled (a filter is required for that), it just provides a code to group on.   
+
+<img src="C:/Users/brenner/Documents/GitHub/R_Census/Images/ipums_select_2_geography.png">  
+
+<br> 
+
+### Select Variables
+
+IPUMS tries to harmonize variables across datasets, but make sure the variable(s) selected match the use-case and are available for all years. The metadata also provides info on top coding and other categorizations. 
+
+<img src="C:/Users/brenner/Documents/GitHub/R_Census/Images/ipums_select_3_variables.png">  
+
+<br> 
+
+### View Data Cart
+
+Ensure everything is correct, and then click "Create Data Extract".
+
+<img src="C:/Users/brenner/Documents/GitHub/R_Census/Images/ipums_select_4_cart.png">
+
+<br> 
+
+### Modify Extract 
+
+From this page you can: 
+
+* Change the file output to CSV 
+* Select cases (i.e. filter the sample) by state 
+* Adjust monetary values to 2010
+
+<img src="C:/Users/brenner/Documents/GitHub/R_Census/Images/ipums_select_5_modify.png">
+
+<br>
+
+### Download
+
+Once the extract is completed, download the CSV. The download will likely show up as a .csv.gz file, so use 7-Zip to extract the zipped file instead of the default Windows option (Windows Explorer sometimes misinterprets .gz files and produces thousands of fragments). 
+
+<img src="C:/Users/brenner/Documents/GitHub/R_Census/Images/ipums_select_6_download.png">
+
+<br> 
+
+The data is now ready to use! 
+
+```{r}
+readr::read_csv("C:/Users/brenner/Documents/GitHub/R_Census/Data/nyc_micro_rent.csv") %>% head()
+```
+
+<hr style="border:2px solid blue">
+
+# Analyzing a Survey
+
+****
+
+Unlike the ACS, which provides cleaned estimates with margins of error, IPUMS is messy survey data that must be processed before producing estimates. However, unlike the NYC Housing and Vacancy Survey which has dozens of replicate weights to account for, IPUMS is much easier to work with. All that is needed is to create a survey object with the weight specified as either the household or person weight. (Note: IPUMS data is always provided at the person-level where each row represents a person. This is true even if all of the variables selected are household-level variables - in which case the household-level variables are repeated across all individuals in the household. When using person-level variables, use all records and the `PERWT` weight; when using household-level variables, first select only one row per household/`SERIAL` and then use the `HHWT` weight.)
+
+```{r eval = FALSE}
+#Household-level data
+ipums_hh_data %>% 
+  #Select one row per household
+  dplyr::distinct(SERIAL, .keep_all = TRUE) %>%
+  srvyr::as_survey(weights = HHWT)
+```
+
+```{r eval = FALSE}
+#Person-level data
+ipums_ind_data %>% 
+  srvyr::as_survey(weights = PERWT)
+```
+
+```{r eval = FALSE}
+#Mixed data
+ipums_mix_data %>% 
+  #Select specific row per household, in this case Head of Household
+  dplyr::filter(RELATE == 1) %>% 
+  srvyr::as_survey(weights = HHWT)
+```
+
+<br> 
+
+Once the survey object is created, `srvyr` has a series of functions that calculate estimates with margins of error.
+
+* `survey_total()` for counts 
+* `survey_total(col)` for sums 
+* `survey_mean(col)` for means
+* `survey_median(col)` for medians
+* `survey_quantile(col, quantiles = x)` for other quantiles
+* Etc. 
+
+```{r}
+readr::read_csv("C:/Users/brenner/Documents/GitHub/R_Census/Data/nyc_micro_rent.csv") %>% 
+  dplyr::distinct(SERIAL, .keep_all = TRUE) %>% 
+  srvyr::as_survey(weights = HHWT) %>% 
+  dplyr::summarize(
+    median_rent = srvyr::survey_median(RENTGRS, na.rm = TRUE),
+    mean_rent = srvyr::survey_mean(RENTGRS, na.rm = TRUE)
+  )
+```
+
+<br> 
+
+When grouping, `summarize()` fails with multiple `.by` arguments, so multiple grouping variables should be concatenated before summarizing. 
+
+```{r}
+readr::read_csv("C:/Users/brenner/Documents/GitHub/R_Census/Data/nyc_micro_rent.csv") %>% 
+  #Create new variables
+  dplyr::transmute(
+    household = SERIAL,
+    HHWT,
+    borough = dplyr::case_when(
+      COUNTYFIP == 5  ~ "Bronx",
+      COUNTYFIP == 47 ~ "Brooklyn",
+      COUNTYFIP == 61 ~ "Manhattan",
+      COUNTYFIP == 81 ~ "Queens",
+      COUNTYFIP == 85 ~ "Staten_Island"
+    ),
+    rent = dplyr::case_when(
+      RENTGRS <  1000 ~ "Super Low",
+      RENTGRS <  1700 ~ "Below Median",
+      RENTGRS <  5000 ~ "Above Median",
+      RENTGRS >= 5000 ~ "Super High"
+    ),
+    RENTGRS
+  ) %>%
+  #Concatenate variables into one column
+  dplyr::transmute(
+    household,
+    HHWT, 
+    group = stringr::str_c(borough, rent, sep = "-"),
+    RENTGRS
+  ) %>% 
+  dplyr::distinct(household, .keep_all = TRUE) %>% 
+  srvyr::as_survey(weights = HHWT) %>%
+  #Group and analyze by the concatenated variable
+  dplyr::summarize(
+    .by = group,
+    rent = srvyr::survey_median(RENTGRS, na.rm = TRUE)
+  ) %>% 
+  #Split the concatenated variable back into multiple variables
+  tidyr::separate(
+    group, 
+    into = c("borough", "rent_level"),
+    sep = "-"
+  ) %>% 
+  dplyr::select(-rent_se) %>% 
+  tidyr::pivot_wider(names_from = borough, values_from = rent) %>% 
+  DT::datatable() %>% 
+  DT::formatCurrency(c("Bronx", "Brooklyn", "Manhattan", "Queens", "Staten_Island"), digits = 0)
+```
+
+<hr style="border:2px solid blue">
