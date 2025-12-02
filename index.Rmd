@@ -9,7 +9,7 @@ github-repo: social-lorax
 description: "This guide provides an overview of using the U.S. Census Bureau's data."
 ---
 
-![](https://drive.google.com/uc?export=view&id=1GCmJ94ZJFXvLAz0USClZGlBKzrQ46KaP)
+<img src="https://drive.google.com/uc?export=view&id=1GCmJ94ZJFXvLAz0USClZGlBKzrQ46KaP">  
 
 # Census Data
 
@@ -35,6 +35,7 @@ The remainder of this guide walks through basic usage of Census data.
 <hr style="border:2px solid blue">
 
 **Sources**
+
 * [Congressional Research Service Census Overview]( https://www.congress.gov/crs-product/R47847) 
 * [Library of Congress Census Resource Guide]( https://guides.loc.gov/census-connections) 
 * [Census Bureau Survey and Census History]( https://www.census.gov/about/history/historical-censuses-and-surveys/census-programs-surveys.html)
@@ -45,4 +46,4 @@ The remainder of this guide walks through basic usage of Census data.
 
 **Timeline**
 
-![](https://drive.google.com/uc?export=view&id=1LmBFi-G9z5x9QEsq9pG4vUFBD5LbUVMK)
+<img src="https://drive.google.com/uc?export=view&id=1LmBFi-G9z5x9QEsq9pG4vUFBD5LbUVMK"> 
