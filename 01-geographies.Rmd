@@ -1,1 +1,27 @@
 # Understanding Census Geographies
+
+Census data outside of microdata sources like IPUMS is never released at the individual level and is always aggregated to a geographic unit as counts, sums, medians, or binned distributions. As a result, selecting a survey product and variables also requires choosing the geographic level at which those variables will be reported. Smaller geographic units generally have higher margins of error, and some variables are unavailable at the smallest scales. Analyses that rely on these small units often use ACS 5-year estimates to pool five years of responses and improve accuracy. Beyond data availability, the appropriate geographic level depends on the project’s unit of analysis and overall analytical design.    
+
+The base unit for all Census geographies is the Census block. 
+
+## Nested Geographies
+
+|Level |GEOID Structure |Digits |Example Area |Example GEOID |
+|------|------|-----:|------|------|
+|State |STATE FIPS |2 |New York (NY) |`36` |
+|County |STATE+COUNTY FIPS |2+3=5 |New York, NY (Manhattan) |`36081` |
+|Census Tract |STATE+COUNTY+TRACT FIPS |2+3+6=11 |Census Tract 65 in New York, NY |`36081006500` |
+|Census Block Group |STATE+COUNTY+TRACT+FIRST DIGIT OF BLOCK FIPS |2+3+6+1=12 |Block Group 1 in Census Tract 65 in New York, NY |`360810065001`|
+|Census Block |STATE+COUNTY+TRACT+BLOCK FIPS |2+3+6+4=15 |Block 1006 in Census Tract 65 in New York, NY |`360810065001006` |
+
+****
+
+## Non-Nesting Geographies
+
+<hr style="border:2px solid blue">
+
+**Sources**
+
+* [Census Bureau Geographic Glossary](https://www.census.gov/programs-surveys/geography/about/glossary.html)
+* [Census Bureau Hierarchies](https://www2.census.gov/geo/pdfs/reference/geodiagram.pdf)
+* [Census Bureau GEOIDS](https://www.census.gov/programs-surveys/geography/guidance/geo-identifiers.html)

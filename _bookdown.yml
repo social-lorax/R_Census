@@ -3,6 +3,7 @@ rmd_files: [
   "01-geographies.Rmd",
   "02-time.Rmd",
   "03-tidycensus.Rmd",
-  "04-hvs.Rmd"
+  "04-hvs.Rmd",
+  "05-ipums.Rmd"
 ]
 delete_merged_file: true
