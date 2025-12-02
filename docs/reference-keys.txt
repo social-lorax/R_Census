@@ -1,0 +1,5 @@
+census-data
+understanding-census-geographies
+comparing-geographies-across-time
+querying-decennial-and-acs-data-with-tidycensus
+querying-nyc-housing-vacancy-survey-hvs-data

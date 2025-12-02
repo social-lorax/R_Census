@@ -1,0 +1,8 @@
+rmd_files: [
+  "index.Rmd",
+  "01-geographies.Rmd",
+  "02-time.Rmd",
+  "03-tidycensus.Rmd",
+  "04-hvs.Rmd"
+]
+delete_merged_file: true

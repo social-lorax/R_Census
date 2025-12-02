@@ -1,0 +1,48 @@
+---
+title: "Guide to Using Census Data"
+author: "Ryan Brenner"
+date: "Updated: `r format(Sys.time(), '%A, %B %d, %Y at %I:%M %p')`"
+site: bookdown::bookdown_site
+output: bookdown::gitbook
+documentclass: book
+github-repo: social-lorax
+description: "This guide provides an overview of using the U.S. Census Bureau's data."
+---
+
+![](https://drive.google.com/uc?export=view&id=1GCmJ94ZJFXvLAz0USClZGlBKzrQ46KaP)
+
+# Census Data
+
+Article I, Section 2, Clause 3 of the US Constitution requires that “the actual Enumeration [for apportioning Representatives] shall be made within three Years after the first Meeting of the Congress of the United States, and within every subsequent Term of ten Years, in such Manner as they shall by Law direct.” The first “meeting of the Congress of the United States” took place in 1789, the first “enumeration” was conducted in 1790, and a count has been taken “every subsequent term of ten years” as the Decennial Census ever since. U.S. marshals initially tabulated Census data, then trained enumerators took over in 1880 with in-person interviews, and finally households began completing their own questionnaires in 1960 when the Census began distributing forms by mail. The Census was first administered under the Secretary of State, then moved to the Department of the Interior in 1849, and finally shifted in 1902 to a newly established permanent Census Office within the Department of Commerce and Labor, the predecessor of today’s Department of Commerce and the modern U.S. Census Bureau.
+
+Over time, the Census has expanded from a “simple” headcount with only six questions related to age, sex, and race into a broad statistical system that now includes more than 200 separate surveys. The scope of the Decennial Census gradually expanded throughout the 1800s to include manufacturing, agriculture (including slavery), and natural resource extraction. The 1890 Decennial Census was the first to join administrative data to supplement enumeration records, opening the Census to broader demographic and statistical uses beyond the constitutional requirement. In the 1940s, statistical sampling was first used to send a “long form” questionnaire to a subset of households, bifurcating the Decennial Census into a true census for enumeration and a survey estimate for all other information. In 2010, the long form was removed from the Decennial Census and became the American Community Survey, a detailed survey sent to a sample of households annually.
+
+The Congressional Research Service divides the Census Bureau’s contemporary work into two accounts: (1) Periodic Censuses and Programs and (2) Current Surveys and Programs. The Periodic Censuses and Programs include some of the most well-known Census products: 
+
+* *Decennial Census of Population and Housing*: the constitutionally required, full enumeration that produces the population count used for apportionment, redistricting, and baseline demographic figures.  
+* *American Community Survey (ACS)*: the continuous, sample-based survey that replaced the decennial long form, providing detailed characteristics on social, economic, housing, and demographic conditions.
+* *Economic Census*: a comprehensive count of U.S. business activity conducted every five years, producing structural information about industries, employment, sales, and the economic composition of the country.
+* *Census of Governments*: a comprehensive inventory conducted every five years of federal, state, and local governments, including their employment, finances, structures, and activities.
+
+The Current Surveys and Programs include the continuous, between-census data collections and tabulations that produce the nation’s primary demographic and economic indicators:
+
+* *Population Estimates Program (PEP)*: annual official estimates of population totals (i.e., adjustments from the Decennial Census), used in funding formulas, planning, and demographic analysis.
+* *Survey of Income and Program Participation (SIPP)*: a major panel survey that tracks income, program eligibility, benefit dynamics, and economic well-being over time.
+* *Current Population Survey (CPS)*: a monthly labor-force survey (conducted jointly with BLS) producing the official source for unemployment rates, labor-force participation, and related labor statistics.
+
+The remainder of this guide walks through basic usage of Census data.
+
+<hr style="border:2px solid blue">
+
+**Sources**
+* [Congressional Research Service Census Overview]( https://www.congress.gov/crs-product/R47847) 
+* [Library of Congress Census Resource Guide]( https://guides.loc.gov/census-connections) 
+* [Census Bureau Survey and Census History]( https://www.census.gov/about/history/historical-censuses-and-surveys/census-programs-surveys.html)
+* [Census Bureau Developing Sampling Techniques]( https://www.census.gov/about/history/bureau-history/census-innovations/data-collection/developing-sampling-techniques.html)
+* [Census Bureau American Community Survey History]( https://www.census.gov/about/history/historical-censuses-and-surveys/census-programs-surveys/demographic/american-community-survey.html)
+
+<hr style="border:2px solid blue">
+
+**Timeline**
+
+![](https://drive.google.com/uc?export=view&id=1LmBFi-G9z5x9QEsq9pG4vUFBD5LbUVMK)

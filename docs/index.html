@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Guide to Using Census Data</title>
+  <meta name="description" content="This guide provides an overview of using the U.S. Census Bureau’s data." />
+  <meta name="generator" content="bookdown 0.45 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Guide to Using Census Data" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This guide provides an overview of using the U.S. Census Bureau’s data." />
+  <meta name="github-repo" content="social-lorax" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Guide to Using Census Data" />
+  
+  <meta name="twitter:description" content="This guide provides an overview of using the U.S. Census Bureau’s data." />
+  
+
+<meta name="author" content="Ryan Brenner" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+
+<link rel="next" href="understanding-census-geographies.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Census Data</a></li>
+<li class="chapter" data-level="2" data-path="understanding-census-geographies.html"><a href="understanding-census-geographies.html"><i class="fa fa-check"></i><b>2</b> Understanding Census Geographies</a></li>
+<li class="chapter" data-level="3" data-path="comparing-geographies-across-time.html"><a href="comparing-geographies-across-time.html"><i class="fa fa-check"></i><b>3</b> Comparing Geographies Across Time</a></li>
+<li class="chapter" data-level="4" data-path="querying-decennial-and-acs-data-with-tidycensus.html"><a href="querying-decennial-and-acs-data-with-tidycensus.html"><i class="fa fa-check"></i><b>4</b> Querying Decennial and ACS Data with <code>tidycensus</code></a></li>
+<li class="chapter" data-level="5" data-path="querying-nyc-housing-vacancy-survey-hvs-data.html"><a href="querying-nyc-housing-vacancy-survey-hvs-data.html"><i class="fa fa-check"></i><b>5</b> Querying NYC Housing Vacancy Survey (HVS) Data</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Guide to Using Census Data</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="header">
+<h1 class="title">Guide to Using Census Data</h1>
+<p class="author"><em>Ryan Brenner</em></p>
+<p class="date"><em>Updated: Tuesday, December 02, 2025 at 12:24 PM</em></p>
+</div>
+<div id="census-data" class="section level1 hasAnchor" number="1">
+<h1><span class="header-section-number">1</span> Census Data<a href="index.html#census-data" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Article I, Section 2, Clause 3 of the US Constitution requires that “the actual Enumeration [for apportioning Representatives] shall be made within three Years after the first Meeting of the Congress of the United States, and within every subsequent Term of ten Years, in such Manner as they shall by Law direct.” The first “meeting of the Congress of the United States” took place in 1789, the first “enumeration” was conducted in 1790, and a count has been taken “every subsequent term of ten years” as the Decennial Census ever since. U.S. marshals initially tabulated Census data, then trained enumerators took over in 1880 with in-person interviews, and finally households began completing their own questionnaires in 1960 when the Census began distributing forms by mail. The Census was first administered under the Secretary of State, then moved to the Department of the Interior in 1849, and finally shifted in 1902 to a newly established permanent Census Office within the Department of Commerce and Labor, the predecessor of today’s Department of Commerce and the modern U.S. Census Bureau.</p>
+<p>Over time, the Census has expanded from a “simple” headcount with only six questions related to age, sex, and race into a broad statistical system that now includes more than 200 separate surveys. The scope of the Decennial Census gradually expanded throughout the 1800s to include manufacturing, agriculture (including slavery), and natural resource extraction. The 1890 Decennial Census was the first to join administrative data to supplement enumeration records, opening the Census to broader demographic and statistical uses beyond the constitutional requirement. In the 1940s, statistical sampling was first used to send a “long form” questionnaire to a subset of households, bifurcating the Decennial Census into a true census for enumeration and a survey estimate for all other information. In 2010, the long form was removed from the Decennial Census and became the American Community Survey, a detailed survey sent to a sample of households annually.</p>
+<p>The Congressional Research Service divides the Census Bureau’s contemporary work into two accounts: (1) Periodic Censuses and Programs and (2) Current Surveys and Programs. The Periodic Censuses and Programs include some of the most well-known Census products:</p>
+<ul>
+<li><em>Decennial Census of Population and Housing</em>: the constitutionally required, full enumeration that produces the population count used for apportionment, redistricting, and baseline demographic figures.<br />
+</li>
+<li><em>American Community Survey (ACS)</em>: the continuous, sample-based survey that replaced the decennial long form, providing detailed characteristics on social, economic, housing, and demographic conditions.</li>
+<li><em>Economic Census</em>: a comprehensive count of U.S. business activity conducted every five years, producing structural information about industries, employment, sales, and the economic composition of the country.</li>
+<li><em>Census of Governments</em>: a comprehensive inventory conducted every five years of federal, state, and local governments, including their employment, finances, structures, and activities.</li>
+</ul>
+<p>The Current Surveys and Programs include the continuous, between-census data collections and tabulations that produce the nation’s primary demographic and economic indicators:</p>
+<ul>
+<li><em>Population Estimates Program (PEP)</em>: annual official estimates of population totals (i.e., adjustments from the Decennial Census), used in funding formulas, planning, and demographic analysis.</li>
+<li><em>Survey of Income and Program Participation (SIPP)</em>: a major panel survey that tracks income, program eligibility, benefit dynamics, and economic well-being over time.</li>
+<li><em>Current Population Survey (CPS)</em>: a monthly labor-force survey (conducted jointly with BLS) producing the official source for unemployment rates, labor-force participation, and related labor statistics.</li>
+</ul>
+<p>The remainder of this guide walks through basic usage of Census data.</p>
+<hr style="border:2px solid blue">
+<p><strong>Sources</strong>
+* <a href="https://www.congress.gov/crs-product/R47847">Congressional Research Service Census Overview</a>
+* <a href="https://guides.loc.gov/census-connections">Library of Congress Census Resource Guide</a>
+* <a href="https://www.census.gov/about/history/historical-censuses-and-surveys/census-programs-surveys.html">Census Bureau Survey and Census History</a>
+* <a href="https://www.census.gov/about/history/bureau-history/census-innovations/data-collection/developing-sampling-techniques.html">Census Bureau Developing Sampling Techniques</a>
+* <a href="https://www.census.gov/about/history/historical-censuses-and-surveys/census-programs-surveys/demographic/american-community-survey.html">Census Bureau American Community Survey History</a></p>
+<hr style="border:2px solid blue">
+<p><strong>Timeline</strong></p>
+<p><img src="https://drive.google.com/uc?export=view&amp;id=1LmBFi-G9z5x9QEsq9pG4vUFBD5LbUVMK" /></p>
+
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+
+<a href="understanding-census-geographies.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": {
+    "github": false,
+    "facebook": true,
+    "twitter": true,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": null,
+    "text": null
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection"
+  }
+});
+});
+</script>
+
+</body>
+
+</html>
