@@ -1,20 +1,46 @@
 # Understanding Census Geographies
 
-Census data outside of microdata sources like IPUMS is never released at the individual level and is always aggregated to a geographic unit as counts, sums, medians, or binned distributions. As a result, selecting a survey product and variables also requires choosing the geographic level at which those variables will be reported. Smaller geographic units generally have higher margins of error, and some variables are unavailable at the smallest scales. Analyses that rely on these small units often use ACS 5-year estimates to pool five years of responses and improve accuracy. Beyond data availability, the appropriate geographic level depends on the project’s unit of analysis and overall analytical design.    
+Census data (aside from microdata sources like IPUMS) is never released at the individual level and is always aggregated to a geographic unit as counts, sums, medians, or binned distributions. As a result, selecting a survey product and variables also requires choosing the geographic level at which those variables will be reported. Smaller geographic units generally have higher margins of error, and some variables are unavailable at the smallest scales. Analyses that rely on these small units often use ACS 5-year estimates to pool five years of responses and improve accuracy. Beyond data availability, the appropriate geographic level depends on the project’s unit of analysis and overall analytical design.    
 
-The base unit for all Census geographies is the Census block. 
+While Census blocks and tracts form the building blocks of all geographic levels at which Census data is reported, not all geographic levels perfectly “nest.” Nested geographies refers to the hierarchical “spine” from Census block to nation, where each unit at a lower level is fully contained within a single unit at the next level up, and each higher-level unit is completely partitioned into lower-level units. Non-nesting geographies still rely on Census blocks and tracts, but their boundaries sometimes cross those of higher levels (e.g., metropolitan statistical areas cross state lines, places like New York City cross county lines). Although Census blocks, tracts, and certain geographies such as congressional districts are collaboratively delineated so that Census data can be accurately aggregated to those geographies, many other geographies are defined independently (e.g., ZIP Codes). Because these independently defined units cannot be directly aggregated from Census blocks and tracks, the Census Bureau produces “tabulation areas” (e.g., ZCTAs) that approximate non-Census geographies using Census blocks and tracts. As a specific tabulation area becomes more widely used, the Census Bureau sometimes works with the managers of the approximated geography to better reflect the geography with Census blocks and tracts (e.g., the Census Bureau working with NYC DCP to redraw block and tract boundaries to better reflect Community Districts). 
+
+![](Images/Census_101/census_geos.png)
+
+<hr style="border:2px solid blue">
+
+## Background 
+
+The U.S. is composed of states and territories whose borders were fixed at the time of their admission to the union. With few exceptions, every state and territory is fully subdivided into counties or county-equivalent jurisdictions (e.g., parishes in Louisiana, boroughs in Alaska, and municipios in Puerto Rico). States and territories all contain various forms of local government (e.g., cities, towns, and villages), though some states have counties entirely partitioned into local governments (e.g., towns in New York) while others maintain extensive unincorporated areas with no municipal government below the county level (e.g., unincorporated Los Angeles County). Historically, the Census has always reported data for these higher-level geographies.
+
+Aside from larger cities with legally defined wards, Census data was not reported for smaller geographies until the end of the nineteenth century. For the 1890 Census, the federal government worked with several cities to establish “sanitary districts,” a new sub-ward level designed to provide more granular data for geographies with no independent legal status. These became the first small-area geographies ever reported by the Census, but the approach was abandoned in 1900. Meanwhile, settlement house researchers and other Progressive Era reformers were producing their own “statistical neighborhoods” and pressing the Census Bureau to adopt a consistent neighborhood-level reporting system.
+
+In the early 1900s, Dr. Walter Laidlaw attempted to use New York State Assembly Districts to study neighborhood conditions in NYC. When the state redrew its district boundaries in 1905, he concluded that assembly districts were too unstable for long-term demographic analysis. Thus, in 1906 he published a paper proposing a system of permanent small areas with boundaries that would remain consistent between Censuses. He then persuaded the newly created Census Bureau to pilot the idea in the 1910 Census, producing tract tabulations for NYC as well as Baltimore, Boston, Chicago, Cleveland, Philadelphia, Pittsburgh, and St. Louis. The group expanded for the 1930 Census to include Los Angeles, Columbus, Nashville, Berkeley, Syracuse, and Yonkers. In 1931, the American Statistical Association formed a Committee on Census Enumeration Areas and appointed Howard Whipple Green as chair; Mr. Green spent the next twenty-five years encouraging cities nationwide to adopt and use the new tracts.
+
+Institutionally, the Census Bureau standardized the tract delineation process in 1934. For the 1940 Census, it also began reporting block-level data for all cities with at least 50,000 residents. In cities where Census tracts already existed, blocks were nested within them; in cities without tracts, the Bureau created “block areas” (renamed “block numbering areas” (BNAs) in 1960) to function as equivalent geographies to tracts. During the 1970s and 1980s, BNAs expanded across much of the country, with the 1990 Census being the first to assign every part of the US to both a Census block and a tract/BNA. The 2000 Census then retired the BNA system entirely and converted all BNAs into Census tracts.
+
+<hr style="border:2px solid blue">
 
 ## Nested Geographies
 
-|Level |GEOID Structure |Digits |Example Area |Example GEOID |
-|------|------|-----:|------|------|
-|State |STATE FIPS |2 |New York (NY) |`36` |
-|County |STATE+COUNTY FIPS |2+3=5 |New York, NY (Manhattan) |`36081` |
-|Census Tract |STATE+COUNTY+TRACT FIPS |2+3+6=11 |Census Tract 65 in New York, NY |`36081006500` |
-|Census Block Group |STATE+COUNTY+TRACT+FIRST DIGIT OF BLOCK FIPS |2+3+6+1=12 |Block Group 1 in Census Tract 65 in New York, NY |`360810065001`|
-|Census Block |STATE+COUNTY+TRACT+BLOCK FIPS |2+3+6+4=15 |Block 1006 in Census Tract 65 in New York, NY |`360810065001006` |
+Taking full advantage of the nesting of these geographies, the Census Bureau labels units in each level with GEOIDs that build upon the GEOIDs of higher levels of geography so the full code string contains information: 
 
-****
+|Level |GEOID Structure |Digits |Example Area |Example GEOID |
+|:-----|:-----|-----:|:-----|:-----|
+|State |STATE |2 |New York |`36` |
+|County |STATE+COUNTY |2+3=5 |New York, NY (Manhattan) |`36081` |
+|Census Tract |STATE+COUNTY+TRACT |2+3+6=11 |Census Tract 65 in New York, NY |`36081006500` |
+|Census Block Group |STATE+COUNTY+TRACT+FIRST DIGIT OF BLOCK |2+3+6+1=12 |Block Group 1 in Census Tract 65 in New York, NY |`360810065001`|
+|Census Block |STATE+COUNTY+TRACT+BLOCK |2+3+6+4=15 |Block 1006 in Census Tract 65 in New York, NY |`360810065001006` |
+
+### Nation
+
+* `tidycensus` term = `us`
+
+### Region
+
+* `tidycensus` term = `region`
+
+<hr style="border:2px solid blue">
 
 ## Non-Nesting Geographies
 
@@ -22,6 +48,7 @@ The base unit for all Census geographies is the Census block.
 
 **Sources**
 
+* [Census Bureau History of Census Tracts and Blocks](https://www.census.gov/about/history/historical-censuses-and-surveys/census-programs-surveys/geography/tracts-and-block-numbering-areas.html)
 * [Census Bureau Geographic Glossary](https://www.census.gov/programs-surveys/geography/about/glossary.html)
 * [Census Bureau Hierarchies](https://www2.census.gov/geo/pdfs/reference/geodiagram.pdf)
 * [Census Bureau GEOIDS](https://www.census.gov/programs-surveys/geography/guidance/geo-identifiers.html)

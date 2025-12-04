@@ -1,6 +1,9 @@
 census-data
 understanding-census-geographies
+background
 nested-geographies
+nation
+region
 non-nesting-geographies
 comparing-geographies-across-time
 querying-decennial-and-acs-data-with-tidycensus

@@ -5,7 +5,7 @@ knitr::opts_chunk$set(message = FALSE, warning = FALSE, out.width = "100%")
 options(scipen = 999)
 ```
 
-![](https://drive.google.com/thumbnail?id=1VU7nRbgK9U_8cwDUeWArbg02ED6LByCs&sz=w100)
+![](Images/IPUMS/logo_ipums.png){height="100px"}
 
 ```{r}
 library(tidyverse)
@@ -139,25 +139,25 @@ IPUMS data is available online at [https://usa.ipums.org/usa/](https://usa.ipums
 
 These are the datasets to pull from.
 
-![](https://drive.google.com/thumbnail?id=1ymkpLaYxQGBKzjfohU3BFCVF69ga8InG&sz=w3000)
+![](Images/IPUMS/ipums_select_1_sample.png)
 
 ### Select Geography
 
 Microdata available through IPUMS is only labeled at the PUMA-level and higher (roughly equivalent to Community Districts in NYC). Selecting geographic fields does not impact which records are sampled (a filter is required for that), it just provides a code in each record to aggregate the data to that level.   
 
-![](https://drive.google.com/thumbnail?id=159TjxFtsJRCr_hpl78zBEjPzrYgs0jKd&sz=w3000)
+![](Images/IPUMS/ipums_select_2_geography.png)
 
 ### Select Variables
 
 IPUMS tries to harmonize variables across datasets, but make sure the variable(s) selected match the use-case and are available for all years. The metadata also provides info on top coding and other categorizations. 
 
-![](https://drive.google.com/thumbnail?id=1Wk_JgNdD5tqtNDA2-R_mKXbqpuk7PYpZ&sz=w3000)
+![](Images/IPUMS/ipums_select_3_variables.png)
 
 ### View Data Cart
 
 Ensure everything is correct, and then click "Create Data Extract".
 
-![](https://drive.google.com/thumbnail?id=1NZMAI-D4OhU3EV11eqj9CwUl8V93wCaO&sz=w3000)
+![](Images/IPUMS/ipums_select_4_cart.png)
 
 ### Modify Extract 
 
@@ -167,13 +167,13 @@ From this page you can:
 * Select cases (i.e. filter the sample) by state 
 * Adjust monetary values to 2010
 
-![](https://drive.google.com/thumbnail?id=1kXzFH0YZmvScHajCLAzbvQRHZy105a7z&sz=w3000)
+![](Images/IPUMS/ipums_select_5_modify.png)
 
 ### Download
 
 Once the extract is completed, download the CSV. The download will likely show up as a .csv.gz file, so use 7-Zip to extract the zipped file instead of the default Windows option (Windows Explorer sometimes misinterprets .gz files and produces thousands of fragments). 
 
-![](https://drive.google.com/thumbnail?id=1cqD2ma88Ag3z-Xa8XHHmFV99_9jjbsTO&sz=w3000)
+![](Images/IPUMS/ipums_select_6_download.png)
 
 The data extract is now ready to use! 
 

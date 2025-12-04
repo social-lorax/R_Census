@@ -23,7 +23,7 @@ In the wake of Donald Trump’s election and subsequent efforts to restrict acce
 
 There are four public use files that provide microdata to work with: 
 
-![](https://drive.google.com/thumbnail?id=1AIeCmO7ElK45m8T09ES5zt8Nc_c2KNbt&sz=w3000)
+![](Images/HVS/hvs_pufs.png)
 
 The `CONTROL` variable joins all of the tables together, with every housing unit in the All Units dataset being in either Occupied Units or Vacant Units, and every person living in an Occupied Unit showing up as their own row in the Persons dataset (i.e., many-to-one match). Projects should start by identifying the universe of interest (all, occupied, or vacant units) and then **left join** to that dataset (using `CONTROL` as the key) to pull in variables from other datasets. 
 
@@ -88,7 +88,7 @@ occ23 %>%
 
 The [HVS Codebook](https://www.nyc.gov/assets/hpd/downloads/pdfs/about/2023-nychvs-puf-user-guide-codebook.pdf) is the central reference for identifying, locating, and interpreting variables in the survey. It lists every variable and indicates which of the four datasets it is stored in, making it the first place to look when selecting variables or joining data across files. Because all responses are stored as numeric codes rather than text, the Codebook is also necessary for translating these values into their intended meanings and for avoiding common misreadings that can distort results.
 
-![](https://drive.google.com/thumbnail?id=1Y402jWlWOKBND3Z79H6OgEjgec1Vgtgr&sz=w3000)
+![](Images/HVS/hvs_guide.png)
 
 Commonly used variables include the following: 
 

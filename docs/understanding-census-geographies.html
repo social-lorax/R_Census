@@ -147,8 +147,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Census Data</a></li>
 <li class="chapter" data-level="2" data-path="understanding-census-geographies.html"><a href="understanding-census-geographies.html"><i class="fa fa-check"></i><b>2</b> Understanding Census Geographies</a>
 <ul>
-<li class="chapter" data-level="2.1" data-path="understanding-census-geographies.html"><a href="understanding-census-geographies.html#nested-geographies"><i class="fa fa-check"></i><b>2.1</b> Nested Geographies</a></li>
-<li class="chapter" data-level="2.2" data-path="understanding-census-geographies.html"><a href="understanding-census-geographies.html#non-nesting-geographies"><i class="fa fa-check"></i><b>2.2</b> Non-Nesting Geographies</a></li>
+<li class="chapter" data-level="2.1" data-path="understanding-census-geographies.html"><a href="understanding-census-geographies.html#background"><i class="fa fa-check"></i><b>2.1</b> Background</a></li>
+<li class="chapter" data-level="2.2" data-path="understanding-census-geographies.html"><a href="understanding-census-geographies.html#nested-geographies"><i class="fa fa-check"></i><b>2.2</b> Nested Geographies</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="understanding-census-geographies.html"><a href="understanding-census-geographies.html#nation"><i class="fa fa-check"></i><b>2.2.1</b> Nation</a></li>
+<li class="chapter" data-level="2.2.2" data-path="understanding-census-geographies.html"><a href="understanding-census-geographies.html#region"><i class="fa fa-check"></i><b>2.2.2</b> Region</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="understanding-census-geographies.html"><a href="understanding-census-geographies.html#non-nesting-geographies"><i class="fa fa-check"></i><b>2.3</b> Non-Nesting Geographies</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="comparing-geographies-across-time.html"><a href="comparing-geographies-across-time.html"><i class="fa fa-check"></i><b>3</b> Comparing Geographies Across Time</a></li>
 <li class="chapter" data-level="4" data-path="querying-decennial-and-acs-data-with-tidycensus.html"><a href="querying-decennial-and-acs-data-with-tidycensus.html"><i class="fa fa-check"></i><b>4</b> Querying Decennial and ACS Data with <code>tidycensus</code></a></li>
@@ -206,10 +211,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="understanding-census-geographies" class="section level1 hasAnchor" number="2">
 <h1><span class="header-section-number">2</span> Understanding Census Geographies<a href="understanding-census-geographies.html#understanding-census-geographies" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>Census data outside of microdata sources like IPUMS is never released at the individual level and is always aggregated to a geographic unit as counts, sums, medians, or binned distributions. As a result, selecting a survey product and variables also requires choosing the geographic level at which those variables will be reported. Smaller geographic units generally have higher margins of error, and some variables are unavailable at the smallest scales. Analyses that rely on these small units often use ACS 5-year estimates to pool five years of responses and improve accuracy. Beyond data availability, the appropriate geographic level depends on the project’s unit of analysis and overall analytical design.</p>
-<p>The base unit for all Census geographies is the Census block.</p>
-<div id="nested-geographies" class="section level2 hasAnchor" number="2.1">
-<h2><span class="header-section-number">2.1</span> Nested Geographies<a href="understanding-census-geographies.html#nested-geographies" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Census data (aside from microdata sources like IPUMS) is never released at the individual level and is always aggregated to a geographic unit as counts, sums, medians, or binned distributions. As a result, selecting a survey product and variables also requires choosing the geographic level at which those variables will be reported. Smaller geographic units generally have higher margins of error, and some variables are unavailable at the smallest scales. Analyses that rely on these small units often use ACS 5-year estimates to pool five years of responses and improve accuracy. Beyond data availability, the appropriate geographic level depends on the project’s unit of analysis and overall analytical design.</p>
+<p>While Census blocks and tracts form the building blocks of all geographic levels at which Census data is reported, not all geographic levels perfectly “nest.” Nested geographies refers to the hierarchical “spine” from Census block to nation, where each unit at a lower level is fully contained within a single unit at the next level up, and each higher-level unit is completely partitioned into lower-level units. Non-nesting geographies still rely on Census blocks and tracts, but their boundaries sometimes cross those of higher levels (e.g., metropolitan statistical areas cross state lines, places like New York City cross county lines). Although Census blocks, tracts, and certain geographies such as congressional districts are collaboratively delineated so that Census data can be accurately aggregated to those geographies, many other geographies are defined independently (e.g., ZIP Codes). Because these independently defined units cannot be directly aggregated from Census blocks and tracks, the Census Bureau produces “tabulation areas” (e.g., ZCTAs) that approximate non-Census geographies using Census blocks and tracts. As a specific tabulation area becomes more widely used, the Census Bureau sometimes works with the managers of the approximated geography to better reflect the geography with Census blocks and tracts (e.g., the Census Bureau working with NYC DCP to redraw block and tract boundaries to better reflect Community Districts).</p>
+<p><img src="Images/Census_101/census_geos.png" /></p>
+<hr style="border:2px solid blue">
+<div id="background" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> Background<a href="understanding-census-geographies.html#background" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The U.S. is composed of states and territories whose borders were fixed at the time of their admission to the union. With few exceptions, every state and territory is fully subdivided into counties or county-equivalent jurisdictions (e.g., parishes in Louisiana, boroughs in Alaska, and municipios in Puerto Rico). States and territories all contain various forms of local government (e.g., cities, towns, and villages), though some states have counties entirely partitioned into local governments (e.g., towns in New York) while others maintain extensive unincorporated areas with no municipal government below the county level (e.g., unincorporated Los Angeles County). Historically, the Census has always reported data for these higher-level geographies.</p>
+<p>Aside from larger cities with legally defined wards, Census data was not reported for smaller geographies until the end of the nineteenth century. For the 1890 Census, the federal government worked with several cities to establish “sanitary districts,” a new sub-ward level designed to provide more granular data for geographies with no independent legal status. These became the first small-area geographies ever reported by the Census, but the approach was abandoned in 1900. Meanwhile, settlement house researchers and other Progressive Era reformers were producing their own “statistical neighborhoods” and pressing the Census Bureau to adopt a consistent neighborhood-level reporting system.</p>
+<p>In the early 1900s, Dr. Walter Laidlaw attempted to use New York State Assembly Districts to study neighborhood conditions in NYC. When the state redrew its district boundaries in 1905, he concluded that assembly districts were too unstable for long-term demographic analysis. Thus, in 1906 he published a paper proposing a system of permanent small areas with boundaries that would remain consistent between Censuses. He then persuaded the newly created Census Bureau to pilot the idea in the 1910 Census, producing tract tabulations for NYC as well as Baltimore, Boston, Chicago, Cleveland, Philadelphia, Pittsburgh, and St. Louis. The group expanded for the 1930 Census to include Los Angeles, Columbus, Nashville, Berkeley, Syracuse, and Yonkers. In 1931, the American Statistical Association formed a Committee on Census Enumeration Areas and appointed Howard Whipple Green as chair; Mr. Green spent the next twenty-five years encouraging cities nationwide to adopt and use the new tracts.</p>
+<p>Institutionally, the Census Bureau standardized the tract delineation process in 1934. For the 1940 Census, it also began reporting block-level data for all cities with at least 50,000 residents. In cities where Census tracts already existed, blocks were nested within them; in cities without tracts, the Bureau created “block areas” (renamed “block numbering areas” (BNAs) in 1960) to function as equivalent geographies to tracts. During the 1970s and 1980s, BNAs expanded across much of the country, with the 1990 Census being the first to assign every part of the US to both a Census block and a tract/BNA. The 2000 Census then retired the BNA system entirely and converted all BNAs into Census tracts.</p>
+<hr style="border:2px solid blue">
+</div>
+<div id="nested-geographies" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> Nested Geographies<a href="understanding-census-geographies.html#nested-geographies" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Taking full advantage of the nesting of these geographies, the Census Bureau labels units in each level with GEOIDs that build upon the GEOIDs of higher levels of geography so the full code string contains information:</p>
 <table>
 <colgroup>
 <col width="20%" />
@@ -220,58 +236,71 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </colgroup>
 <thead>
 <tr class="header">
-<th>Level</th>
-<th>GEOID Structure</th>
+<th align="left">Level</th>
+<th align="left">GEOID Structure</th>
 <th align="right">Digits</th>
-<th>Example Area</th>
-<th>Example GEOID</th>
+<th align="left">Example Area</th>
+<th align="left">Example GEOID</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>State</td>
-<td>STATE FIPS</td>
+<td align="left">State</td>
+<td align="left">STATE</td>
 <td align="right">2</td>
-<td>New York (NY)</td>
-<td><code>36</code></td>
+<td align="left">New York</td>
+<td align="left"><code>36</code></td>
 </tr>
 <tr class="even">
-<td>County</td>
-<td>STATE+COUNTY FIPS</td>
+<td align="left">County</td>
+<td align="left">STATE+COUNTY</td>
 <td align="right">2+3=5</td>
-<td>New York, NY (Manhattan)</td>
-<td><code>36081</code></td>
+<td align="left">New York, NY (Manhattan)</td>
+<td align="left"><code>36081</code></td>
 </tr>
 <tr class="odd">
-<td>Census Tract</td>
-<td>STATE+COUNTY+TRACT FIPS</td>
+<td align="left">Census Tract</td>
+<td align="left">STATE+COUNTY+TRACT</td>
 <td align="right">2+3+6=11</td>
-<td>Census Tract 65 in New York, NY</td>
-<td><code>36081006500</code></td>
+<td align="left">Census Tract 65 in New York, NY</td>
+<td align="left"><code>36081006500</code></td>
 </tr>
 <tr class="even">
-<td>Census Block Group</td>
-<td>STATE+COUNTY+TRACT+FIRST DIGIT OF BLOCK FIPS</td>
+<td align="left">Census Block Group</td>
+<td align="left">STATE+COUNTY+TRACT+FIRST DIGIT OF BLOCK</td>
 <td align="right">2+3+6+1=12</td>
-<td>Block Group 1 in Census Tract 65 in New York, NY</td>
-<td><code>360810065001</code></td>
+<td align="left">Block Group 1 in Census Tract 65 in New York, NY</td>
+<td align="left"><code>360810065001</code></td>
 </tr>
 <tr class="odd">
-<td>Census Block</td>
-<td>STATE+COUNTY+TRACT+BLOCK FIPS</td>
+<td align="left">Census Block</td>
+<td align="left">STATE+COUNTY+TRACT+BLOCK</td>
 <td align="right">2+3+6+4=15</td>
-<td>Block 1006 in Census Tract 65 in New York, NY</td>
-<td><code>360810065001006</code></td>
+<td align="left">Block 1006 in Census Tract 65 in New York, NY</td>
+<td align="left"><code>360810065001006</code></td>
 </tr>
 </tbody>
 </table>
-<hr />
+<div id="nation" class="section level3 hasAnchor" number="2.2.1">
+<h3><span class="header-section-number">2.2.1</span> Nation<a href="understanding-census-geographies.html#nation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ul>
+<li><code>tidycensus</code> term = <code>us</code></li>
+</ul>
 </div>
-<div id="non-nesting-geographies" class="section level2 hasAnchor" number="2.2">
-<h2><span class="header-section-number">2.2</span> Non-Nesting Geographies<a href="understanding-census-geographies.html#non-nesting-geographies" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="region" class="section level3 hasAnchor" number="2.2.2">
+<h3><span class="header-section-number">2.2.2</span> Region<a href="understanding-census-geographies.html#region" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ul>
+<li><code>tidycensus</code> term = <code>region</code></li>
+</ul>
+<hr style="border:2px solid blue">
+</div>
+</div>
+<div id="non-nesting-geographies" class="section level2 hasAnchor" number="2.3">
+<h2><span class="header-section-number">2.3</span> Non-Nesting Geographies<a href="understanding-census-geographies.html#non-nesting-geographies" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <hr style="border:2px solid blue">
 <p><strong>Sources</strong></p>
 <ul>
+<li><a href="https://www.census.gov/about/history/historical-censuses-and-surveys/census-programs-surveys/geography/tracts-and-block-numbering-areas.html">Census Bureau History of Census Tracts and Blocks</a></li>
 <li><a href="https://www.census.gov/programs-surveys/geography/about/glossary.html">Census Bureau Geographic Glossary</a></li>
 <li><a href="https://www2.census.gov/geo/pdfs/reference/geodiagram.pdf">Census Bureau Hierarchies</a></li>
 <li><a href="https://www.census.gov/programs-surveys/geography/guidance/geo-identifiers.html">Census Bureau GEOIDS</a></li>
