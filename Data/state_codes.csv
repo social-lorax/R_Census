@@ -1,0 +1,52 @@
+Region,Division,State,FIPS
+South,East South Central ,Alabama,1
+West,Pacific,Alaska,2
+West,Mountain,Arizona,4
+South,West South Central ,Arkansas,5
+West,Pacific,California,6
+West,Mountain,Colorado,8
+Northeast,New England,Connecticut,9
+South,South Atlantic ,Delaware,10
+South,South Atlantic ,District of Columbia,11
+South,South Atlantic ,Florida,12
+South,South Atlantic ,Georgia,13
+West,Pacific,Hawaii,15
+West,Mountain,Idaho,16
+Midwest,East North Central ,Illinois,17
+Midwest,East North Central ,Indiana,18
+Midwest,West North Central ,Iowa,19
+Midwest,West North Central ,Kansas,20
+South,East South Central ,Kentucky,21
+South,West South Central ,Louisiana,22
+Northeast,New England,Maine,23
+South,South Atlantic ,Maryland,24
+Northeast,New England,Massachusetts,25
+Midwest,East North Central ,Michigan,26
+Midwest,West North Central ,Minnesota,27
+South,East South Central ,Mississippi,28
+Midwest,West North Central ,Missouri,29
+West,Mountain,Montana,30
+Midwest,West North Central ,Nebraska,31
+West,Mountain,Nevada,32
+Northeast,New England,New Hampshire,33
+Northeast,Middle Atlantic ,New Jersey,34
+West,Mountain,New Mexico,35
+Northeast,Middle Atlantic ,New York,36
+South,South Atlantic ,North Carolina,37
+Midwest,West North Central ,North Dakota,38
+Midwest,East North Central ,Ohio,39
+South,West South Central ,Oklahoma,40
+West,Pacific,Oregon,41
+Northeast,Middle Atlantic ,Pennsylvania,42
+Northeast,New England,Rhode Island,44
+South,South Atlantic ,South Carolina,45
+Midwest,West North Central ,South Dakota,46
+South,East South Central ,Tennessee,47
+South,West South Central ,Texas,48
+West,Mountain,Utah,49
+Northeast,New England,Vermont,50
+South,South Atlantic ,Virginia,51
+West,Pacific,Washington,53
+South,South Atlantic ,West Virginia,54
+Midwest,East North Central ,Wisconsin,55
+West,Mountain,Wyoming,56
