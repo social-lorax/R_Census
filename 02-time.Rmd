@@ -10,9 +10,13 @@ library(DT)
 
 Geographic boundaries change all the time. While large geographies like states are unlikely to change, places and even counties can change through annexation and secession that shift area between existing units or create new ones. Census geographies (i.e., blocks and tracts) generally remain stable between Decennial Censuses, but are always revised with each new Census through border adjustments and the creation of new units from fast growing areas. This means comparing indicators over time, especially across decades (e.g., pre-pandemic 2019 to anything post-pandemic in the 2020s), requires first ensuring the geography being compared is consistent. 
 
+<hr style="border:2px solid blue">
+
 ## Converting Vintages
 
 The easiest way to ensure comparability is to use a crosswalk that converts the data into a common vintage of blocks and tracts (e.g., converting 2010 tracts to 2020 tracts to compare pre- and post-pandemic indicators). For example: 
+
+<br> 
 
 ```{r echo = FALSE}
 crosswalk_ct00_ct10 <- 
@@ -34,17 +38,19 @@ crosswalk_ct00_ct10 %>%
   DT::formatPercentage("Weight", digits = 1)
 ```
 
+<br> 
+
 What this shows is that all of tract 36047000301 in 2000 is within tract 36047000301 in 2010, while tract 36047000302 in 2000 was split into tracts 36047000100 and 36047004700 in 2010. Specifically, 83.8% of tract 36047000302 ended up in tract 36047000100 while the remaining 16.2% ended up in tract 36047004700. To convert data aggregated by 2000 tracts into data aggregated by 2010 tracts do the following: 
 
-```{r eval = FALSE}
-sample_data
-```
+<br> 
 
 ```{r echo = FALSE}
 sample_data %>% 
   DT::datatable() %>% 
   DT::formatRound("Population", digits = 0)
 ```
+
+<br> 
 
 First, join the crosswalk by the 2000 tract ID: 
 
@@ -66,6 +72,8 @@ sample_data %>%
   DT::formatRound("Population", digits = 0) %>% 
   DT::formatPercentage("Weight", digits = 1)
 ```
+
+<br> 
 
 Then, multiply the indicator by the appropriate weight:
 
@@ -93,6 +101,8 @@ sample_data %>%
   DT::formatRound(c("Population", "Population_wt"), digits = 0) %>% 
   DT::formatPercentage("Weight", digits = 1)
 ```
+
+<br> 
 
 Finally, group by the 2010 tract ID and sum the weighted indicator:
 
@@ -128,7 +138,9 @@ sample_data %>%
   DT::formatRound("Population", digits = 0)
 ```
 
-**A note of caution:** this is an estimate! This process assumes people are distributed equally across the source geography such that, if X% of the source geography is located in the target geography, X% of the population (including X% of each age, race, etc.) is also within the target geography. If the population is concentrated or if different segments of the population are segregated, this conversion process will be inaccurate. Additionally, this process is only appropriate for counts and sums and not for medians or other quantiles. For rates or percentages, convert the numerator and denominator separately, then recompute the rate in the target geography.
+<br> 
+
+**Note:** This is an estimate! This process assumes people are distributed equally across the source geography such that, if X% of the source geography is located in the target geography, X% of the population (including X% of each age, race, etc.) is also within the target geography. If the population is concentrated or if different segments of the population are segregated, this conversion process will be inaccurate. Additionally, this process is only appropriate for counts and sums and not for medians or other quantiles. For rates or percentages, convert the numerator and denominator separately, then recompute the rate in the target geography.
 
 ### IPUMS NHGIS
 
@@ -161,8 +173,12 @@ Each file provides a different weight based on the universe of the indicator:
 
 ### Brown University LTDB
 
-If you need to look further back in time and are only interested in Census tracts, the [Longitudinal Tract Data Base at Brown University](https://s4.ad.brown.edu/projects/diversity/Researcher/LTBDDload/DataList.aspx) provides a crosswalk for comparing tracts from 1970-2020. These crosswalks are less detailed as they only convert Census tract geographies to the 2010 boundaries and only provide one weight. 
+If crosswalks between older vintages are needed, the [Longitudinal Tract Data Base at Brown University](https://s4.ad.brown.edu/projects/diversity/Researcher/LTBDDload/DataList.aspx) provides crosswalks for comparing tracts from 1970-2020. These crosswalks are less detailed as they only convert Census tract geographies to the 2010 boundaries and only provide one weight. 
+
+<hr style="border:2px solid blue">
 
 ## Comparing Within Vintage
 
 Once data is aggregated to the same vintage, it is generally possible to directly compare the values. The one caveat is comparing ACS data: in general, 1-year ACS and 5-year ACS should only be compared to the same survey and 5-year ACS cannot compare overlapping years (e.g., the 5-year 2019 data cannot be compared with the 5-year 2016 data because both are pooling data from 2015 and 2016).
+
+<hr style="border:2px solid blue">

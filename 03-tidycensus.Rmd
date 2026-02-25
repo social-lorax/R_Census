@@ -3,6 +3,10 @@
 ```{r include = FALSE}
 knitr::opts_chunk$set(message = FALSE, warning = FALSE, out.width = "100%")
 options(scipen = 999)
+
+library(tidyverse)
+library(tidycensus)
+library(DT)
 ```
 
 ![](Images/Tidycensus/logo_tidycensus.png){height="100px"}
@@ -10,7 +14,6 @@ options(scipen = 999)
 ```{r}
 library(tidyverse)
 library(tidycensus)
-library(DT)
 ```
 
 Census data is available online at [data.census.gov](https://data.census.gov/). This is an ok website to explore variables, but it is not easy to customize data downloads to get a variety of geographies or specific variables. Instead, `tidycensus` allows you to pull in most data from:

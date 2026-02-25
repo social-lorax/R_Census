@@ -11,11 +11,12 @@ tracts
 block-groups
 blocks
 non-nesting-geographies
-place
-core-based-statistical-area-cbsa
-public-use-microdata-area-puma
-zip-code-tabulation-area-zcta
+places-incorporated-and-census-designated
+core-based-statistical-areas-metropolitan-and-micropolitan
+public-use-microdata-areas
+zip-code-tabulation-areas
 legislative-distrcts
+re-aggregating-census-data
 comparing-geographies-across-time
 converting-vintages
 ipums-nhgis

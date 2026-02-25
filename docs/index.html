@@ -161,12 +161,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="2.3" data-path="understanding-census-geographies.html"><a href="understanding-census-geographies.html#non-nesting-geographies"><i class="fa fa-check"></i><b>2.3</b> Non-Nesting Geographies</a>
 <ul>
-<li class="chapter" data-level="2.3.1" data-path="understanding-census-geographies.html"><a href="understanding-census-geographies.html#place"><i class="fa fa-check"></i><b>2.3.1</b> Place</a></li>
-<li class="chapter" data-level="2.3.2" data-path="understanding-census-geographies.html"><a href="understanding-census-geographies.html#core-based-statistical-area-cbsa"><i class="fa fa-check"></i><b>2.3.2</b> Core Based Statistical Area (CBSA)</a></li>
-<li class="chapter" data-level="2.3.3" data-path="understanding-census-geographies.html"><a href="understanding-census-geographies.html#public-use-microdata-area-puma"><i class="fa fa-check"></i><b>2.3.3</b> Public Use Microdata Area (PUMA)</a></li>
-<li class="chapter" data-level="2.3.4" data-path="understanding-census-geographies.html"><a href="understanding-census-geographies.html#zip-code-tabulation-area-zcta"><i class="fa fa-check"></i><b>2.3.4</b> ZIP Code Tabulation Area (ZCTA)</a></li>
+<li class="chapter" data-level="2.3.1" data-path="understanding-census-geographies.html"><a href="understanding-census-geographies.html#places-incorporated-and-census-designated"><i class="fa fa-check"></i><b>2.3.1</b> Places (Incorporated and Census Designated)</a></li>
+<li class="chapter" data-level="2.3.2" data-path="understanding-census-geographies.html"><a href="understanding-census-geographies.html#core-based-statistical-areas-metropolitan-and-micropolitan"><i class="fa fa-check"></i><b>2.3.2</b> Core Based Statistical Areas (Metropolitan and Micropolitan)</a></li>
+<li class="chapter" data-level="2.3.3" data-path="understanding-census-geographies.html"><a href="understanding-census-geographies.html#public-use-microdata-areas"><i class="fa fa-check"></i><b>2.3.3</b> Public Use Microdata Areas</a></li>
+<li class="chapter" data-level="2.3.4" data-path="understanding-census-geographies.html"><a href="understanding-census-geographies.html#zip-code-tabulation-areas"><i class="fa fa-check"></i><b>2.3.4</b> ZIP Code Tabulation Areas</a></li>
 <li class="chapter" data-level="2.3.5" data-path="understanding-census-geographies.html"><a href="understanding-census-geographies.html#legislative-distrcts"><i class="fa fa-check"></i><b>2.3.5</b> Legislative Distrcts</a></li>
 </ul></li>
+<li class="chapter" data-level="2.4" data-path="understanding-census-geographies.html"><a href="understanding-census-geographies.html#re-aggregating-census-data"><i class="fa fa-check"></i><b>2.4</b> Re-Aggregating Census Data</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="comparing-geographies-across-time.html"><a href="comparing-geographies-across-time.html"><i class="fa fa-check"></i><b>3</b> Comparing Geographies Across Time</a>
 <ul>
@@ -254,18 +255,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="header">
 <h1 class="title">Guide to Using Census Data</h1>
 <p class="author"><em>Ryan Brenner</em></p>
-<p class="date"><em>Updated: Tuesday, February 24, 2026 at 07:36 PM</em></p>
+<p class="date"><em>Updated: Wednesday, February 25, 2026 at 05:09 PM</em></p>
 </div>
 <div id="census-data" class="section level1 hasAnchor" number="1">
 <h1><span class="header-section-number">1</span> Census Data<a href="index.html#census-data" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p><img src="Images/Census_101/census_bureau_logo.png" /></p>
-<p>Article I, Section 2, Clause 3 of the US Constitution requires that “the actual Enumeration [for apportioning Representatives] shall be made within three Years after the first Meeting of the Congress of the United States, and within every subsequent Term of ten Years, in such Manner as they shall by Law direct.” The first “meeting of the Congress of the United States” took place in 1789, the first “enumeration” was conducted in 1790, and a count has been taken “every subsequent term of ten years” as the Decennial Census ever since. U.S. marshals initially tabulated Census data, then trained enumerators took over in 1880 with in-person interviews, and finally households began completing their own questionnaires in 1960 when the Census began distributing forms by mail. The Census was first administered under the Secretary of State, then moved to the Department of the Interior in 1849, and finally shifted in 1902 to a newly established permanent Census Office within the Department of Commerce and Labor, the predecessor of today’s Department of Commerce and the modern U.S. Census Bureau.</p>
-<p>Over time, the Census has expanded from a “simple” headcount with only six questions related to age, sex, and race into a broad statistical system that now includes more than 200 separate surveys. The scope of the Decennial Census gradually expanded throughout the 1800s to include manufacturing, agriculture (including slavery), and natural resource extraction. The 1890 Decennial Census was the first to join administrative data to supplement enumeration records, opening the Census to broader demographic and statistical uses beyond the constitutional requirement. In the 1940s, statistical sampling was first used to send a “long form” questionnaire to a subset of households, bifurcating the Decennial Census into a true census for enumeration and a survey estimate for all other information. In 2010, the long form was removed from the Decennial Census and became the American Community Survey, a detailed survey sent to a sample of households annually.</p>
+<p>Article I, Section 2, Clause 3 of the US Constitution requires that “Enumeration [for apportioning Representatives] shall be made within three Years after the first Meeting of the Congress of the United States, and within every subsequent Term of ten Years, in such Manner as they shall by Law direct.” The first “meeting of the Congress of the United States” took place in 1789, the first “enumeration” was conducted in 1790, and a count has been taken “every subsequent term of ten years” as the Decennial Census ever since. U.S. marshals initially tabulated Census data, then trained enumerators took over in 1880 with in-person interviews, and finally households began completing their own questionnaires in 1960 when the Census began distributing forms by mail. The Census was first administered under the Secretary of State, then moved to the Department of the Interior in 1849, and finally shifted in 1902 to a newly established permanent Census Office within the Department of Commerce and Labor, the predecessor of today’s Department of Commerce and the modern U.S. Census Bureau.</p>
+<p>Over time, the Census has expanded from a “simple” headcount with only six questions related to age, sex, and race into a broad statistical system that now includes more than 200 separate surveys. The scope of the Decennial Census gradually expanded throughout the 1800s to include manufacturing, agriculture (including slavery), and natural resource extraction. The 1890 Decennial Census was the first to join administrative data to supplement enumeration records, opening the Census to broader demographic and statistical uses beyond the constitutional requirement of enumeration. In the 1940s, statistical sampling was first used to send a “long form” questionnaire to a subset of households, bifurcating the Decennial Census into a true census for enumeration and a survey estimate for all other information. In 2010, the long form was removed from the Decennial Census and became the American Community Survey, a detailed survey sent to a sample of households annually.</p>
 <p>The Congressional Research Service divides the Census Bureau’s contemporary work into two accounts: (1) Periodic Censuses and Programs and (2) Current Surveys and Programs. The Periodic Censuses and Programs include some of the most well-known Census products:</p>
 <ul>
 <li><em>Decennial Census of Population and Housing</em>: the constitutionally required, full enumeration that produces the population count used for apportionment, redistricting, and baseline demographic figures.<br />
 </li>
-<li><em>American Community Survey (ACS)</em>: the continuous, sample-based survey that replaced the decennial long form, providing detailed characteristics on social, economic, housing, and demographic conditions.</li>
+<li><em>American Community Survey (ACS)</em>: the continuous, sample-based survey that replaced the Decennial’s long form, providing detailed characteristics on social, economic, housing, and demographic conditions.</li>
 <li><em>Economic Census</em>: a comprehensive count of U.S. business activity conducted every five years, producing structural information about industries, employment, sales, and the economic composition of the country.</li>
 <li><em>Census of Governments</em>: a comprehensive inventory conducted every five years of federal, state, and local governments, including their employment, finances, structures, and activities.</li>
 </ul>
@@ -288,6 +289,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <hr style="border:2px solid blue">
 <p><strong>Timeline</strong></p>
 <p><img src="Images/Census_101/census_timeline.png" /></p>
+<hr style="border:2px solid blue">
 
 </div>
             </section>
@@ -350,6 +352,20 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>

@@ -161,12 +161,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="2.3" data-path="understanding-census-geographies.html"><a href="understanding-census-geographies.html#non-nesting-geographies"><i class="fa fa-check"></i><b>2.3</b> Non-Nesting Geographies</a>
 <ul>
-<li class="chapter" data-level="2.3.1" data-path="understanding-census-geographies.html"><a href="understanding-census-geographies.html#place"><i class="fa fa-check"></i><b>2.3.1</b> Place</a></li>
-<li class="chapter" data-level="2.3.2" data-path="understanding-census-geographies.html"><a href="understanding-census-geographies.html#core-based-statistical-area-cbsa"><i class="fa fa-check"></i><b>2.3.2</b> Core Based Statistical Area (CBSA)</a></li>
-<li class="chapter" data-level="2.3.3" data-path="understanding-census-geographies.html"><a href="understanding-census-geographies.html#public-use-microdata-area-puma"><i class="fa fa-check"></i><b>2.3.3</b> Public Use Microdata Area (PUMA)</a></li>
-<li class="chapter" data-level="2.3.4" data-path="understanding-census-geographies.html"><a href="understanding-census-geographies.html#zip-code-tabulation-area-zcta"><i class="fa fa-check"></i><b>2.3.4</b> ZIP Code Tabulation Area (ZCTA)</a></li>
+<li class="chapter" data-level="2.3.1" data-path="understanding-census-geographies.html"><a href="understanding-census-geographies.html#places-incorporated-and-census-designated"><i class="fa fa-check"></i><b>2.3.1</b> Places (Incorporated and Census Designated)</a></li>
+<li class="chapter" data-level="2.3.2" data-path="understanding-census-geographies.html"><a href="understanding-census-geographies.html#core-based-statistical-areas-metropolitan-and-micropolitan"><i class="fa fa-check"></i><b>2.3.2</b> Core Based Statistical Areas (Metropolitan and Micropolitan)</a></li>
+<li class="chapter" data-level="2.3.3" data-path="understanding-census-geographies.html"><a href="understanding-census-geographies.html#public-use-microdata-areas"><i class="fa fa-check"></i><b>2.3.3</b> Public Use Microdata Areas</a></li>
+<li class="chapter" data-level="2.3.4" data-path="understanding-census-geographies.html"><a href="understanding-census-geographies.html#zip-code-tabulation-areas"><i class="fa fa-check"></i><b>2.3.4</b> ZIP Code Tabulation Areas</a></li>
 <li class="chapter" data-level="2.3.5" data-path="understanding-census-geographies.html"><a href="understanding-census-geographies.html#legislative-distrcts"><i class="fa fa-check"></i><b>2.3.5</b> Legislative Distrcts</a></li>
 </ul></li>
+<li class="chapter" data-level="2.4" data-path="understanding-census-geographies.html"><a href="understanding-census-geographies.html#re-aggregating-census-data"><i class="fa fa-check"></i><b>2.4</b> Re-Aggregating Census Data</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="comparing-geographies-across-time.html"><a href="comparing-geographies-across-time.html"><i class="fa fa-check"></i><b>3</b> Comparing Geographies Across Time</a>
 <ul>
@@ -356,8 +357,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb20-16"><a href="querying-nyc-hvs-data.html#cb20-16" tabindex="-1"></a>  DT<span class="sc">::</span><span class="fu">datatable</span>() <span class="sc">%&gt;%</span> </span>
 <span id="cb20-17"><a href="querying-nyc-hvs-data.html#cb20-17" tabindex="-1"></a>  DT<span class="sc">::</span><span class="fu">formatRound</span>(<span class="fu">c</span>(<span class="st">&quot;count&quot;</span>, <span class="st">&quot;median_hhsize&quot;</span>), <span class="at">digits =</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb20-18"><a href="querying-nyc-hvs-data.html#cb20-18" tabindex="-1"></a>  DT<span class="sc">::</span><span class="fu">formatRound</span>(<span class="fu">c</span>(<span class="st">&quot;count_se&quot;</span>, <span class="st">&quot;median_hhsize_se&quot;</span>), <span class="at">digits =</span> <span class="dv">1</span>)</span></code></pre></div>
-<div class="datatables html-widget html-fill-item" id="htmlwidget-e1722307c249db6c3f42" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-e1722307c249db6c3f42">{"x":{"filter":"none","vertical":false,"data":[["1","2"],[1,2],[2323523.464126887,1108927.376303281],[18963.06095960531,19724.34920330941],[2,2],[0.2511994509735523,0.2511994509735523]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>TENURE<\/th>\n      <th>count<\/th>\n      <th>count_se<\/th>\n      <th>median_hhsize<\/th>\n      <th>median_hhsize_se<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"targets":3,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 1, 3, \",\", \".\", null);\n  }"},{"targets":5,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 1, 3, \",\", \".\", null);\n  }"},{"targets":2,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 0, 3, \",\", \".\", null);\n  }"},{"targets":4,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 0, 3, \",\", \".\", null);\n  }"},{"className":"dt-right","targets":[1,2,3,4,5]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"TENURE","targets":1},{"name":"count","targets":2},{"name":"count_se","targets":3},{"name":"median_hhsize","targets":4},{"name":"median_hhsize_se","targets":5}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":["options.columnDefs.0.render","options.columnDefs.1.render","options.columnDefs.2.render","options.columnDefs.3.render"],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-1812a04c0cb743b2d98d" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-1812a04c0cb743b2d98d">{"x":{"filter":"none","vertical":false,"data":[["1","2"],[1,2],[2323523.464126887,1108927.376303281],[18963.06095960531,19724.34920330941],[2,2],[0.2511994509735523,0.2511994509735523]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>TENURE<\/th>\n      <th>count<\/th>\n      <th>count_se<\/th>\n      <th>median_hhsize<\/th>\n      <th>median_hhsize_se<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"targets":3,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 1, 3, \",\", \".\", null);\n  }"},{"targets":5,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 1, 3, \",\", \".\", null);\n  }"},{"targets":2,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 0, 3, \",\", \".\", null);\n  }"},{"targets":4,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 0, 3, \",\", \".\", null);\n  }"},{"className":"dt-right","targets":[1,2,3,4,5]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"TENURE","targets":1},{"name":"count","targets":2},{"name":"count_se","targets":3},{"name":"median_hhsize","targets":4},{"name":"median_hhsize_se","targets":5}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":["options.columnDefs.0.render","options.columnDefs.1.render","options.columnDefs.2.render","options.columnDefs.3.render"],"jsHooks":[]}</script>
 <hr style="border:2px solid blue">
 </div>
 <div id="variables-1" class="section level2 hasAnchor" number="5.2">
@@ -545,8 +546,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb31-39"><a href="querying-nyc-hvs-data.html#cb31-39" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
 <span id="cb31-40"><a href="querying-nyc-hvs-data.html#cb31-40" tabindex="-1"></a>  DT<span class="sc">::</span><span class="fu">datatable</span>() <span class="sc">%&gt;%</span> </span>
 <span id="cb31-41"><a href="querying-nyc-hvs-data.html#cb31-41" tabindex="-1"></a>  DT<span class="sc">::</span><span class="fu">formatRound</span>(<span class="fu">c</span>(<span class="st">&quot;n&quot;</span>, <span class="st">&quot;n_low&quot;</span>, <span class="st">&quot;n_upp&quot;</span>), <span class="at">digits =</span> <span class="dv">0</span>)</span></code></pre></div>
-<div class="datatables html-widget html-fill-item" id="htmlwidget-09a978b96253725eb270" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-09a978b96253725eb270">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4"],["Occupied, owner","Occupied, renter","Vacant, available for rent","Vacant, not available for rent or sale"],[1108927.376303281,2323523.464126887,33214.133123615,239586.026442653],[1069667.041284901,2285778.435453234,25995.5535163803,220972.7943516281],[1148187.711321661,2361268.49280054,40432.71273084971,258199.2585336779]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>status<\/th>\n      <th>n<\/th>\n      <th>n_low<\/th>\n      <th>n_upp<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"targets":2,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 0, 3, \",\", \".\", null);\n  }"},{"targets":3,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 0, 3, \",\", \".\", null);\n  }"},{"targets":4,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 0, 3, \",\", \".\", null);\n  }"},{"className":"dt-right","targets":[2,3,4]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"status","targets":1},{"name":"n","targets":2},{"name":"n_low","targets":3},{"name":"n_upp","targets":4}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":["options.columnDefs.0.render","options.columnDefs.1.render","options.columnDefs.2.render"],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-7a2c4ac6e21850b98594" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-7a2c4ac6e21850b98594">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4"],["Occupied, owner","Occupied, renter","Vacant, available for rent","Vacant, not available for rent or sale"],[1108927.376303281,2323523.464126887,33214.133123615,239586.026442653],[1069667.041284901,2285778.435453234,25995.5535163803,220972.7943516281],[1148187.711321661,2361268.49280054,40432.71273084971,258199.2585336779]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>status<\/th>\n      <th>n<\/th>\n      <th>n_low<\/th>\n      <th>n_upp<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"targets":2,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 0, 3, \",\", \".\", null);\n  }"},{"targets":3,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 0, 3, \",\", \".\", null);\n  }"},{"targets":4,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatRound(data, 0, 3, \",\", \".\", null);\n  }"},{"className":"dt-right","targets":[2,3,4]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"status","targets":1},{"name":"n","targets":2},{"name":"n_low","targets":3},{"name":"n_upp","targets":4}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":["options.columnDefs.0.render","options.columnDefs.1.render","options.columnDefs.2.render"],"jsHooks":[]}</script>
 </div>
 <div id="median-rent-by-regulation" class="section level3 hasAnchor" number="5.3.2">
 <h3><span class="header-section-number">5.3.2</span> <strong>Median Rent</strong> by Regulation<a href="querying-nyc-hvs-data.html#median-rent-by-regulation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -616,7 +617,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb32-64"><a href="querying-nyc-hvs-data.html#cb32-64" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">&quot;NYC Housing Vacancy Survey, 2023.&quot;</span></span>
 <span id="cb32-65"><a href="querying-nyc-hvs-data.html#cb32-65" tabindex="-1"></a>  ) <span class="sc">+</span> </span>
 <span id="cb32-66"><a href="querying-nyc-hvs-data.html#cb32-66" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-128-1.png" width="100%" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-85-1.png" width="100%" /></p>
 
 </div>
 </div>
@@ -681,6 +682,20 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>
