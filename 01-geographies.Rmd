@@ -41,6 +41,20 @@ Taking full advantage of the nesting of these geographies, the Census Bureau lab
 |Census Block Group |STATE+COUNTY+TRACT+FIRST DIGIT OF BLOCK |2+3+6+1=12 |Block Group 1 in Census Tract 65 in New York, NY |`360810065001`|
 |Census Block |STATE+COUNTY+TRACT+BLOCK |2+3+6+4=15 |Block 1006 in Census Tract 65 in New York, NY |`360810065001006` |
 
+**A note of caution:** Notice how "Census Tract 65" became "006500" in the GEOID. When split out in a separate column and named, tracts will often have whole numbers like 65 and decimals like 206.01 (as a new tract was split from prior tract 206). When reconstructing the GEOID from the component FIPS codes, check the tract names and multiply all values by 100 if there are decimals.
+
+```{r eval = FALSE}
+data %>% 
+  dplyr::mutate(
+    GEOID = stringr::str_c(
+      stringr::str_pad(state_fips, width = 2, side = "left", pad = "0"),
+      stringr::str_pad(county_fips, width = 3, side = "left", pad = "0"),
+      stringr::str_pad(round(tract_number * 100), width = 6, side = "left", pad = "0"),
+      stringr::str_pad(block_number, width = 4, side = "left", pad = "0")
+    )
+  )
+```
+
 ### Nation
 
 * `tidycensus` term = `us`
@@ -182,7 +196,17 @@ readr::read_csv("Data/metro_codes.csv") %>%
 
 > Public Use Microdata Areas (PUMAs) are statistical geographic areas for the dissemination of decennial census and American Community Survey (ACS) Public Use Microdata Sample files in which the Census Bureau provides selected extracts of raw data from a small sample of census records that are screened to protect confidentiality. The ACS also uses the PUMAs as a tabulation geographic entity.
 
-In NYC, PUMAs are an approximation of Community Districts (although the Census Bureau worked with the NYC DCP to create new Community District Tabulation Areas).
+In NYC, PUMAs are an approximation of Community Districts, although the Census Bureau worked with NYC DCP to create new [Community District Tabulation Areas (CDTAs)](https://www.nyc.gov/site/planning/data-maps/open-data/census-download-metadata.page):
+
+```{r echo = FALSE}
+tibble(Tract = c(36005001901, 36005001902, 36005001903, 36005002300, 36005002500),
+       Borough = "Bronx",
+       `NTA Code` = "BX0101", 
+       `NTA Name` = "Mott Haven-Port Morris",
+       `CDTA Code` = "BX01",
+       `CDTA Name` = "BX01 Melrose-Mott Haven-Port Morris (CD 1 Approximation)") %>% 
+  datatable()
+```
 
 ### ZIP Code Tabulation Area (ZCTA)
 
